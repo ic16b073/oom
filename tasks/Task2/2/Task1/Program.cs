@@ -26,9 +26,9 @@ internal class Program
 
         Console.WriteLine("||||||||||||||||||||||||||||||");
 
-        foreach (var b in bike)
+        foreach (var a in bike)
         {
-            b.UpdateWeight(10);
+            a.UpdateWeight(10);
         }
 
         foreach(var c in bike)

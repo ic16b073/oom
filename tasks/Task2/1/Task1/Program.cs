@@ -10,6 +10,13 @@ namespace Task2
 {
     class Program
     {
+        static void printbike(bike x)
+        {
+            Console.WriteLine($"{x.Name}: Nummer: {x.Framenumber}, Gewitcht: {x.GetWeight()}");
+        }
+
+      
+
         static void Main(string[] args)
         {
             
@@ -21,22 +28,20 @@ namespace Task2
                                    
 
             bike a = new bike(typ, 111, 11);
-            bike b = new bike(typ2, 110, 10);      
+            bike b = new bike(typ2, 110, 10);
 
-            Console.WriteLine("Der Name A ist " + a.Name + " und die Rahmennummer ist " + a.Framenumber + " Derzeitiges Gewicht: " + a.GetWeight() + "kg");
-            Console.WriteLine("Der Name B ist " + b.Name + " und die Rahmennummer ist " + b.Framenumber + " Derzeitiges Gewicht: " + b.GetWeight() + "kg");
-            
+            printbike(a);
+            printbike(b);
 
             Console.WriteLine("Neues Gewicht des Fahrrades <A> eingeben");
             double newgewicht = Convert.ToInt32(Console.ReadLine());
             a.UpdateWeight(newgewicht);
+            printbike(a);
 
             Console.WriteLine("Neues Gewicht des Fahrrades <B> eingeben");
             double newgewicht2 = Convert.ToInt32(Console.ReadLine());
-            a.UpdateWeight(newgewicht2);
-
-            Console.WriteLine("Das neue Gewicht von " + a.Name + " ist: " + a.GetWeight() + "kg");
-            Console.WriteLine("Das neue Gewicht von " + b.Name + " ist: " + b.GetWeight() + "kg");
+            a.UpdateWeight(newgewicht2);            
+            printbike(b);
 
         } 
         }
