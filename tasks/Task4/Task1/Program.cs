@@ -75,24 +75,43 @@ internal class Program
             Console.WriteLine($"Wert {i}: {result[i]}");
         }
 
+        //objectarray
+        var array = new ItemA[]
+        {
+            new bike("hoppy hop", 1234, 44.4),
+            new bike("lollypop", 6666, 55),
+            new bike("bikeracer", 7777, 55),
+            new car("red",1500,"kg")
+        };
+
+
+        Console.WriteLine("\n_______objectarray_____________");
+        /*foreach (var v in array)
+        {
+            v.newWeight(10, "pfund");
+        }*/
+        foreach (var v in array)
+        {
+            v.printall();
+        }
 
         //task4
         Console.WriteLine("\nxXxXxXxX-Task4-XxXxXxXx\n");
 
-        bike[] array = new bike[3];
+        bike[] array2 = new bike[3];
         for(var i= 0; i<3; i++)
         {
-            array[i] = new bike($"arraybike {i}", i + 1000, i + 50);
+            array2[i] = new bike($"arraybike {i}", i + 1000, i + 50);
             
         }
-        File.WriteAllText(@"c:\Users\scheidl\oom\tasks\Task4\bikes.json", JsonConvert.SerializeObject(array));
+        File.WriteAllText(@"c:\Users\scheidl\oom\tasks\Task4\bikes.json", JsonConvert.SerializeObject(array2));
 
-        //array = null;
-        bike[] array2 = JsonConvert.DeserializeObject<bike[]>(File.ReadAllText(@"c:\Users\scheidl\oom\tasks\Task4\bikes.json"));
+        
+        bike[] array3 = JsonConvert.DeserializeObject<bike[]>(File.ReadAllText(@"c:\Users\scheidl\oom\tasks\Task4\bikes.json"));
 
         for (var i = 0; i < 3; i++)
         {
-            Console.WriteLine($"{array2[i].Name} : {array2[i].Framenumber}");
+            Console.WriteLine($"{array3[i].Name} : {array3[i].Framenumber}");
         }
 
 
@@ -105,6 +124,9 @@ internal class Program
 interface ItemA
 {
     double newWeight(double value, string cur);
+    void printall();
+
+
 }
 
 
@@ -145,6 +167,11 @@ public class car : ItemA
 
         return kg;
         
+    }
+
+    public void printall()
+    {
+        Console.WriteLine($"CAR: {Farbe} , {carweight} ");
     }
     #endregion 
 }
@@ -193,6 +220,11 @@ public class bike : ItemA
     [Test]
     public double newWeight(double partweight, string Name) => partweight;
 
+
+    public void printall()
+    {
+        Console.WriteLine($"BIKE: {Name} , {Framenumber}");
+    }
     #endregion 
 }
 

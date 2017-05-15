@@ -14,15 +14,12 @@ internal class Program
         Console.WriteLine($"{x.Name}: Nummer: {x.Framenumber}, Gewitcht: {x.GetWeight()}");
     }
 
-    static void convertweight()
-    {
-
-    }
+   
 
 
     static void Main(string[] args)
     {
-
+        //Task2
         Console.WriteLine("Namen des 1. Fahrrades eingeben");
         string typ = Console.ReadLine();
 
@@ -46,14 +43,17 @@ internal class Program
         b.UpdateWeight(newgewicht2);
         printbike(b);
 
-
-        //Task2
+        Console.WriteLine("\nxXxXxXxX-TASK3-XxXxXxXx");
+        //Task3
 
         car x = new car("red", 1000, "kg");
 
         Console.WriteLine("\nCalculating Weights with new Array 200.2, 250.9, 920.2, 400.1, 601.5");
 
         var doublearray = new[] { 200.2, 250.9, 920.2, 400.1, 601.5 };
+
+
+        //for method call
         var result = new double[doublearray.Length];
         for (var i = 0; i < doublearray.Length; i++)
         {
@@ -74,6 +74,26 @@ internal class Program
             Console.WriteLine($"Wert {i}: {result[i]}");
         }
 
+        //objectarray
+        var array = new ItemA[]
+        {
+            new bike("hoppy hop", 1234, 44.4),
+            new bike("lollypop", 6666, 55),
+            new bike("bikeracer", 7777, 55),
+            new car("red",1500,"kg")
+        };
+
+
+        Console.WriteLine("\n_______objectarray_____________");
+        foreach (var v in array)
+        {
+            v.newWeight(10,"pfund");
+        }
+        foreach (var v in array)
+        {
+            v.printall();
+        }
+
     }
 }
 
@@ -84,6 +104,8 @@ interface ItemA
 {
 
     double newWeight(double value, string cur);
+
+    void printall();
 }
 
 
@@ -125,7 +147,11 @@ public class car : ItemA
         }
 
         return kg;
-        
+    }
+
+    public void printall()
+    {
+        Console.WriteLine($"CAR: {Farbe} , {carweight} ");
     }
     #endregion 
 }
@@ -171,6 +197,11 @@ public class bike : ItemA
     #region ItemA Implementation
 
     public double newWeight(double partweight, string Name) => partweight;
+
+    public void printall()
+    {
+        Console.WriteLine($"BIKE: {Name} , {Framenumber}");
+    }
 
     #endregion 
 }
