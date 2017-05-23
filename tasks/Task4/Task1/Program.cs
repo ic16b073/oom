@@ -15,10 +15,7 @@ internal class Program
         Console.WriteLine($"{x.Name}: Nummer: {x.Framenumber}, Gewitcht: {x.GetWeight()}");
     }
 
-    static void convertweight()
-    {
 
-    }
 
 
     static void Main(string[] args)
@@ -48,7 +45,7 @@ internal class Program
         printbike(b);
 
         Console.WriteLine("\nxXxXxXxX-TASK3-XxXxXxXx");
-        //Task3
+        //Task3-------------------------------------------------------------------------------------------------------
 
         car x = new car("red", 1000, "kg");
 
@@ -95,7 +92,7 @@ internal class Program
             v.printall();
         }
 
-        //task4
+        //task4-------------------------------------------------------------------------------
         Console.WriteLine("\nxXxXxXxX-Task4-XxXxXxXx\n");
 
         bike[] array2 = new bike[3];
@@ -104,14 +101,14 @@ internal class Program
             array2[i] = new bike($"arraybike {i}", i + 1000, i + 50);
             
         }
-        File.WriteAllText(@"c:\Users\scheidl\oom\tasks\Task4\bikes.json", JsonConvert.SerializeObject(array2));
+        File.WriteAllText(@"c:\Users\scheidl\oom\tasks\Task4\bike.json", JsonConvert.SerializeObject(array2));
 
         
-        bike[] array3 = JsonConvert.DeserializeObject<bike[]>(File.ReadAllText(@"c:\Users\scheidl\oom\tasks\Task4\bikes.json"));
+        bike[] array3 = JsonConvert.DeserializeObject<bike[]>(File.ReadAllText(@"c:\Users\scheidl\oom\tasks\Task4\bike.json"));
 
-        for (var i = 0; i < 3; i++)
+        foreach(var v in array3)
         {
-            Console.WriteLine($"{array3[i].Name} : {array3[i].Framenumber}");
+            Console.WriteLine($"{v.Name} : {v.Framenumber}");
         }
 
 
@@ -125,14 +122,12 @@ interface ItemA
 {
     double newWeight(double value, string cur);
     void printall();
-
-
 }
 
 
 
 
-[TestFixture]
+
 public class car : ItemA
 {       
     private double carweight;
@@ -144,18 +139,17 @@ public class car : ItemA
               
         Farbe = colour;
         carweight = kg;
-        
     }
 
     
     public string Farbe { get; }
 
-    [Test]
+   
     public double GetWeight() => carweight;
 
 
     #region ItemA Implementation
-    [Test]
+   
     public double newWeight(double kg, string Einheit)
     {
         if (kg <= 0) return kg;
@@ -180,17 +174,18 @@ public class car : ItemA
 
 
 
-[TestFixture]
+
 public class bike : ItemA
 {
     //private field
     private double weight;
 
-       
+    
     //Constructor
     public bike(string name, int framenumber, double partweight)
     {
-        if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("name must not be empty.", nameof(name));
+        if (string.IsNullOrEmpty(name)) throw new ArgumentException("name must not be empty.", nameof(name));
+        
 
         Framenumber = framenumber;
         Name = name;
@@ -198,7 +193,7 @@ public class bike : ItemA
         UpdateWeight(partweight);
     }
 
-    [Test]
+    
     public double GetWeight() => weight;        //abgekürzte schreibweise für return;
 
 
@@ -209,15 +204,18 @@ public class bike : ItemA
 
 
     //public method from ItemA
-    [Test]
+    
     public void UpdateWeight(double partweight)
     {
-    if (partweight < 0) throw new ArgumentException("partweight must be higher than zero", nameof(partweight));
-            weight = partweight;
+            
+       if (partweight < 0) throw new ArgumentException("partweight must be higher than zero", nameof(partweight));
+       weight = partweight;
+
+
     }
 
     #region ItemA Implementation
-    [Test]
+   
     public double newWeight(double partweight, string Name) => partweight;
 
 
@@ -228,3 +226,79 @@ public class bike : ItemA
     #endregion 
 }
 
+
+namespace tests
+
+{   [TestFixture]
+    public class classtests
+    {
+        [Test]
+        public void createbiketest()
+        {
+            var t = new bike("RACER", 12340, 9.55);
+
+            Assert.IsTrue(t.Name == "RACER");
+            Assert.IsTrue(t.Framenumber == 12340);
+            Assert.IsTrue(t.GetWeight() == 9.55);
+        }
+
+        [Test]
+        public void cannotcreatebookwithouttitle()
+        {
+            Assert.Catch(() =>
+            {
+                var t = new bike(null, 12350, 9.9);
+            });
+        }
+
+        [Test]
+        public void cannotUpdateWeightlowerzero()
+        {
+            Assert.Catch(() =>
+            {
+                var t = new bike("testweight", 12350, 9.9);
+                t.UpdateWeight(-1);
+            });
+        }
+
+        [Test]
+        public void bikeUpdateWeight()
+        {
+            var t = new bike("testUpdate", 12350, 9.9);
+            t.UpdateWeight(10);
+            Assert.IsTrue(t.GetWeight() == 10);
+        }
+
+        [Test]
+        public void createcartest()
+        {
+            var t = new car("LILA", 1250, "kg");
+
+            Assert.IsTrue(t.Farbe == "LILA");
+            Assert.IsTrue(t.GetWeight() == 1250);
+        }
+
+        [Test]
+        public void poundinkgcar()
+        {
+            var t = new car("LILA", 1250, "pfund");
+            Assert.IsTrue(t.newWeight(1000, "pfund") == (1000 * 0.453));
+        }
+
+        [Test]
+        public void kginkgcar()
+        {
+            var t = new car("LILA", 1250, "kg");
+            Assert.IsTrue(t.newWeight(1000, "kg") == (1000));
+        }
+
+        [Test]
+        public void carUpdateWeight()
+        {
+            var t = new car("testUpdate", 12350, "kg");
+            Assert.IsTrue(t.GetWeight() == 12350);
+        }
+
+    }
+
+}
