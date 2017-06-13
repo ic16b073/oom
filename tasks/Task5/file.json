@@ -1,0 +1,22 @@
+[
+  {
+    "$type": "bike, Task1",
+    "Name": "hoppy hop",
+    "Framenumber": 1234
+  },
+  {
+    "$type": "bike, Task1",
+    "Name": "lollypop",
+    "Framenumber": 6666
+  },
+  {
+    "$type": "bike, Task1",
+    "Name": "bikeracer",
+    "Framenumber": 7777
+  },
+  {
+    "$type": "car, Task1",
+    "Farbe": "red",
+    "Weight": 1500.0
+  }
+]
