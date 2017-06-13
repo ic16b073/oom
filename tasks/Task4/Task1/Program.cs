@@ -95,20 +95,17 @@ internal class Program
         //task4-------------------------------------------------------------------------------
         Console.WriteLine("\nxXxXxXxX-Task4-XxXxXxXx\n");
 
-        bike[] array2 = new bike[3];
-        for(var i= 0; i<3; i++)
-        {
-            array2[i] = new bike($"arraybike {i}", i + 1000, i + 50);
-            
-        }
-        File.WriteAllText(@"c:\Users\scheidl\oom\tasks\Task4\bike.json", JsonConvert.SerializeObject(array2));
 
-        
-        bike[] array3 = JsonConvert.DeserializeObject<bike[]>(File.ReadAllText(@"c:\Users\scheidl\oom\tasks\Task4\bike.json"));
+        var backupSettings = new JsonSerializerSettings() { Formatting = Formatting.Indented, TypeNameHandling = TypeNameHandling.Auto };
+        File.WriteAllText(@"c:\Users\scheidl\oom\tasks\Task4\file.json", JsonConvert.SerializeObject(array, backupSettings));
 
-        foreach(var v in array3)
+
+        var restorestring = File.ReadAllText(@"c:\Users\scheidl\oom\tasks\Task4\file.json");
+        var newarray = JsonConvert.DeserializeObject<ItemA[]>(restorestring, backupSettings);
+
+        foreach(var v in newarray)
         {
-            Console.WriteLine($"{v.Name} : {v.Framenumber}");
+            v.printall();
         }
 
 
@@ -132,20 +129,28 @@ public class car : ItemA
 {       
     private double carweight;
 
+    [JsonConstructor]
+    public car (string farbe, double weight)
+    {        
+        Farbe = farbe;
+        carweight = weight;
+    }
+
+
     
-    public car (string colour, double kg, string currency )
+    public car (string colour, double weight, string currency )
     { 
-        if (string.IsNullOrWhiteSpace(colour)) throw new ArgumentException("colour must not be empthy.", nameof(colour));
+        if (string.IsNullOrWhiteSpace(colour)) throw new ArgumentException("colour must not be empty.", nameof(colour));
               
         Farbe = colour;
-        carweight = kg;
+        carweight = weight;
     }
 
     
     public string Farbe { get; }
 
    
-    public double GetWeight() => carweight;
+    public double Weight => carweight;
 
 
     #region ItemA Implementation
@@ -275,7 +280,7 @@ namespace tests
             var t = new car("LILA", 1250, "kg");
 
             Assert.IsTrue(t.Farbe == "LILA");
-            Assert.IsTrue(t.GetWeight() == 1250);
+            Assert.IsTrue(t.Weight == 1250);
         }
 
         [Test]
@@ -296,7 +301,7 @@ namespace tests
         public void carUpdateWeight()
         {
             var t = new car("testUpdate", 12350, "kg");
-            Assert.IsTrue(t.GetWeight() == 12350);
+            Assert.IsTrue(t.Weight == 12350);
         }
 
     }
